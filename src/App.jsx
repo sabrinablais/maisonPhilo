@@ -1,20 +1,33 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Activites from "./pages/Activites";
 
-function App() {
+function Layout() {
   return (
-    <Router>
-      <div className="min-h-screen bg-primary-50 text-navy">
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/activites" element={<Activites />} />
-        </Routes>
-      </div>
-    </Router>
+    <div className="min-h-screen bg-primary-50 text-navy">
+      <Navbar />
+      <Outlet />
+    </div>
   );
 }
 
-export default App;
+const router = createBrowserRouter([
+  {
+    element: <Layout />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/activites",
+        element: <Activites />,
+      },
+    ],
+  },
+]);
+
+export default function App() {
+  return <RouterProvider router={router} />;
+}
